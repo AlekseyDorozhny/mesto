@@ -1,0 +1,13 @@
+.profile__activity {
+  font-size: 18px;
+  line-height: auto;
+  font-weight: normal;
+  grid-area: activity;
+  margin: 0;
+}
+
+@media screen and (max-width: 350px) {
+  .profile__activity {
+    font-size: 14px;
+  }
+}
