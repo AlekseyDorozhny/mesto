@@ -7,7 +7,6 @@
   min-width: 320px;
   max-width: 1280px;
   margin: auto;
-  border: 2px solid red;
   font-family: 'Inter', Arial, sans-serif;
 }
 
@@ -16,7 +15,6 @@
   margin: 45px auto 40px;
   min-height: 74px;
   border-bottom: 1px solid rgba(84, 84, 84, 0.7);
-  border: 2px solid greenyellow;
 }
 
 .header__logo {
@@ -26,13 +24,17 @@
 .profile {
   max-width: 69%;
   margin: 0 auto 50px;
-  border: 2px solid gold;
   display: flex;
   color: white;
+  align-items: center;
+  position: relative;
 }
 
 .profile__avatar {
-  max-width: ;
+  width: 120px;
+  height: 120px;
+  border-radius: 60px;
+  background-image: url(../Images/profileAvatar.jpg);
 }
 
 .profile__info {
@@ -42,9 +44,11 @@
   grid-template-areas:
   'name button'
   'activity .';
-  gap: 18px 16px;
-  border: 2px solid greenyellow;
+  gap: 10px 20px;
   max-height: 60px;
+  margin-left: 30px;
+  position: relative;
+  bottom: 10px;
 }
 .profile__name {
   font-size: 42px;
@@ -68,10 +72,71 @@
   border: 1px solid white;
   display: flex;
   grid-area: button;
-  margin-top: auto;
+  margin-top: 15px;
 }
 
 .profile__editPan {
   width: 10px;
   margin: auto;
+}
+
+.profile__addButton {
+  display: flex;
+  width: 150px;
+  height: 50px;
+  border: 1px solid white;
+  justify-content: center;
+  position: absolute;
+  right: 0;
+}
+
+.profile__plus {
+  width: 22px;
+}
+
+.elements {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: 1fr 1fr;
+  margin: auto;
+  gap: 22px 20px;
+  max-width: 69%;
+}
+
+.element {
+  display: flex;
+  flex-direction: column;
+  max-width: 282px;
+  border-radius: 10px;
+  overflow: hidden;
+  margin: auto;
+}
+
+.element__plank {
+  background-color: white;
+  color: #000;
+  display: flex;
+  justify-content: space-between;
+}
+
+.element__name {
+  font-size: 24px;
+  font-weight: 900;
+  margin-left: 20px;
+}
+
+.element__like {
+  margin-right: 20px;
+  width: 22px;
+}
+
+.footer__copyright {
+  font-size: 18px;
+  font-weight: normal;
+  color: #545454;
+}
+
+.footer {
+  max-width: 69%;
+  margin: 72px auto 60px;
 }
