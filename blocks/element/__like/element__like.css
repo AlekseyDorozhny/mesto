@@ -1,13 +1,14 @@
 .element__like {
-  width: 22px;
+  width: 24px;
   height: 19px;
   align-self: center;
   margin-right: 17px;
   background-color: white;
   background-image: url(../../../Images/likeInactiv.svg);
-  object-fit: contain;
+  object-fit: cover;
   border: none;
   transition: opacity .3s;
+  background-repeat: no-repeat;
 }
 
 .element__like:hover {
