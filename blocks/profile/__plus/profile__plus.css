@@ -1,9 +1,0 @@
-.profile__plus {
-  width: 22px;
-}
-
-@media screen and (max-width: 350px) {
-  .profile__plus {
-    width: 15px;
-  }
-}

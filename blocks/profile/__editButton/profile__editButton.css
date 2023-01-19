@@ -6,6 +6,9 @@
   grid-area: button;
   margin-top: 15px;
   transition: opacity 0.3s;
+  background-image: url(../../../Images/editPen.png);
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
 .profile__editButton:hover {

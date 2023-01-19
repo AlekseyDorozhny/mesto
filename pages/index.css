@@ -13,23 +13,16 @@
 @import url(../blocks/popup/__heading/popup__heading.css);
 @import url(../blocks/popup/__input/popup__input.css);
 @import url(../blocks/popup/__closeButton/popup__closeButton.css);
-@import url(../blocks/popup/__closeIcon/popup__closeIcon.css);
 @import url(../blocks/popup/__saveButton/popup__saveButton.css);
 
 /* Profile */
 @import url(../blocks/profile/profile.css);
-
 @import url(../blocks/profile/__avatar/profile__avatar.css);
-
 @import url(../blocks/profile/__info/profile__info.css);
 @import url(../blocks/profile/__name/profile__name.css);
 @import url(../blocks/profile/__activity/profile__activity.css);
-
 @import url(../blocks/profile/__editButton/profile__editButton.css);
-@import url(../blocks/profile/__editPan/profile__editPan.css);
-
 @import url(../blocks/profile/__addButton/profile__addButton.css);
-@import url(../blocks/profile/__plus/profile__plus.css);
 
 /* Elements */
 @import url(../blocks/elements/elements.css);

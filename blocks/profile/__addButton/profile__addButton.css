@@ -7,6 +7,10 @@
   position: absolute;
   right: 0;
   transition: opacity 0.3s;
+  background-image: url(../../../Images/plus.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 22px;
 }
 
 .profile__addButton:hover {
