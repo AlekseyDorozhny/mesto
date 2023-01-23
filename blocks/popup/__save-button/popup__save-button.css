@@ -6,6 +6,8 @@
   height: 50px;
   margin-top: 22px;
   transition: background-color .3s;
+  border: none;
+  margin-bottom: 37px;
 }
 
 .popup__save-button:hover {

@@ -4,8 +4,6 @@
   height: 50px;
   border: 1px solid white;
   justify-content: center;
-  position: absolute;
-  right: 0;
   transition: opacity 0.3s;
   background-image: url(../../../Images/plus.svg);
   background-repeat: no-repeat;

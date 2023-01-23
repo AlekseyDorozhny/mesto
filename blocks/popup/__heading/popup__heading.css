@@ -4,7 +4,6 @@
   margin-top: 34px;
   margin-bottom: 42px;
   align-self: flex-start;
-  margin-left: 35px;
 }
 
 @media screen and (max-width: 600px) {
@@ -12,6 +11,5 @@
     font-size: 18px;
     margin-top: 28px;
     margin-bottom: 66px;
-    margin-left: 21px;
   }
 }

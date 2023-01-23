@@ -4,6 +4,9 @@
   font-weight: 500;
   grid-area: name;
   margin: 0;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 @media screen and (max-width: 950px) {
@@ -17,5 +20,6 @@
     font-size: 27px;
     line-height: normal;
     min-width: 189px;
+    margin-left: 30px;
   }
 }
