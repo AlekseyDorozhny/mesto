@@ -1,6 +1,6 @@
 .profile__info {
   display: grid;
-  grid-template-columns: auto auto;
+  grid-template-columns: auto 1fr;
   grid-template-rows: auto auto;
   grid-template-areas:
   'name button'
@@ -9,10 +9,10 @@
   position: relative;
   bottom: 10px;
   margin-top: 20px;
-
+  max-width: 95%;
 }
 
-@media screen and (max-width: 350px) {
+@media screen and (max-width: 950px) {
   .profile__info {
     margin-top: 9px;
     gap: 8px 10px;
