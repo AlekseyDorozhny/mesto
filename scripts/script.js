@@ -10,8 +10,8 @@ let profileName = document.querySelector('.profile__name')
 let profileActivity = document.querySelector('.profile__activity')
 
 function popupOpen() {
-  nameInput.setAttribute('value', profileName.textContent);
-  activityInput.setAttribute('value', profileActivity.textContent);
+  nameInput.value = profileName.textContent;
+  activityInput.value = profileActivity.textContent
   popup.classList.add('popup_opened');
 }
 

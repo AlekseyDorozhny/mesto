@@ -5,6 +5,7 @@
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
+  max-width: 187px;
 }
 
 @media screen and (max-width: 950px) {
