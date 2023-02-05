@@ -13,7 +13,7 @@ let cardPopupCloseButton = document.querySelector('.popup__close-button_area_car
 let cardPopupSaveButton = document.querySelector('.popup__save-button_area_card');
 let cardPopup = document.querySelector('.popup_type_add-card');
 let addCardButton = document.querySelector('.profile__add-button');
-const elementImageContainer = document.querySelectorAll('.element__image');
+const elementImageContainer = document.querySelectorAll('.element__image-container');
 const elementName = document.querySelectorAll('.element__name');
 const initialCards = [
   {
@@ -46,6 +46,7 @@ const cardSrcInput = document.querySelector('.popup__input_type_card-Src');
 let cardFormElement = document.querySelector('.popup__form_type_card');
 const element = document.querySelector('.element');
 const elements = document.querySelector('.elements');
+let like = document.querySelectorAll('.element__like');
 
 
 
@@ -98,6 +99,7 @@ function primaryCardFilling () {
   for (let i = 0; i < initialCards.length; i++) {
     const elementImage = document.createElement('img');
     elementImage.src = initialCards[i].link;
+    elementImage.classList.add('element__image');
     elementName[i].textContent = initialCards[i].name;
     elementImageContainer[i].append(elementImage);
   }
@@ -105,7 +107,6 @@ function primaryCardFilling () {
 
 primaryCardFilling();
 
-console.log(initialCards);
 /* Добавление новых карточек */
 
 function addNewCard (evt) {
@@ -113,15 +114,29 @@ function addNewCard (evt) {
 
   let newCard = [];
   newCard.unshift({name: cardNameInput.value, link: cardSrcInput.value});
-  const newElementImage = document.createElement('img');
-  newElementImage.src = newCard[0].link
+
   let newElement = element.cloneNode(true);
+  console.log(newElement);
+ const newElementImage = newElement.querySelector('img');
+  const newElementName = newElement.querySelector('.element__name');
+
 
   newElementImage.src = newCard[0].link;
+  newElementName.textContent = newCard[0].name;
 
   elements.prepend(newElement);
   cardPopupClose();
+
 }
 
 cardFormElement.addEventListener('submit', addNewCard);
 
+/* Лайки */
+
+like.addEventListener ('click', function(evt) {
+  evt.target.classList.toggle('element__like_status_active');
+});
+
+
+
+console.log(like);

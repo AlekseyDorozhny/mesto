@@ -39,11 +39,17 @@
 @import url(../blocks/popup/__save-button/popup__save-button.css);
 
 
-.element__image {
+.element__image-container {
   width: 282px;
   height: 282px;
   position: relative;
   overflow: hidden;
+  display: flex;
+}
+
+.element__image {
+  min-width: 100%;
+  min-height: 100%;
 }
 
 .element__trash {
@@ -65,7 +71,9 @@ opacity: 60%;
 cursor: pointer;
 }
 
-
+.element__like_status_active {
+  background-image: url(../../../Images/likeActive.svg);
+}
 
 
 
