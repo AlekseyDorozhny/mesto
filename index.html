@@ -10,7 +10,6 @@
   <header class="header">
     <img class="header__logo" src="./Images/headerLogo.svg" alt="Логотип Mesto Russia">
   </header>
-
   <main>
     <section class="profile">
       <div class="profile__avatar">
@@ -24,60 +23,6 @@
       <button class="profile__add-button" type="button" aria-label="добавить картинку"></button>
     </section>
     <section class="elements">
-      <article class="element">
-        <div class="element__image-container">
-          <div class="element__trash"></div>
-        </div>
-        <div class="element__plank">
-          <h2 class="element__name"></h2>
-          <button class="element__like" type="button" aria-label="лайк"></button>
-        </div>
-      </article>
-      <article class="element">
-        <div class="element__image-container">
-          <div class="element__trash"></div>
-        </div>
-        <div class="element__plank">
-          <h2 class="element__name"></h2>
-          <button class="element__like" type="button" aria-label="лайк"></button>
-        </div>
-      </article>
-      <article class="element">
-        <div class="element__image-container">
-          <div class="element__trash"></div>
-        </div>
-        <div class="element__plank">
-          <h2 class="element__name"></h2>
-          <button class="element__like" type="button" aria-label="лайк"></button>
-        </div>
-      </article>
-      <article class="element">
-        <div class="element__image-container">
-          <div class="element__trash"></div>
-        </div>
-        <div class="element__plank">
-          <h2 class="element__name"></h2>
-          <button class="element__like" type="button" aria-label="лайк"></button>
-        </div>
-      </article>
-      <article class="element">
-        <div class="element__image-container">
-          <div class="element__trash"></div>
-        </div>
-        <div class="element__plank">
-          <h2 class="element__name"></h2>
-          <button class="element__like" type="button" aria-label="лайк"></button>
-        </div>
-      </article>
-      <article class="element">
-        <div class="element__image-container">
-          <div class="element__trash"></div>
-        </div>
-        <div class="element__plank">
-          <h2 class="element__name"></h2>
-          <button class="element__like" type="button" aria-label="лайк"></button>
-        </div>
-      </article>
     </section>
   </main>
   <footer class="footer">
@@ -108,10 +53,23 @@
   <div class="popup popup_type_image">
     <div class="image-popup">
       <button type="button" class="popup__close-button popup__close-button_area_image" aria-label="закрыть просмотр карточки"></button>
-      <img class="image-popup__image" src="./Images/ElementsImages/karachaevsk.jpg">
-      <h2 class="image-popup__name">Карачаево-Черкессия</h2>
+      <img class="image-popup__image">
+      <h2 class="image-popup__name"></h2>
     </div>
   </div>
+  <template class="card-template">
+    <article class="element">
+    <div class="element__image-container">
+      <img class="element__image">
+      <div class="element__trash"></div>
+    </div>
+    <div class="element__plank">
+      <h2 class="element__name"></h2>
+      <button class="element__like" type="button" aria-label="лайк"></button>
+    </div>
+    </article>
+  </template>
+  <script src="./scripts/constants.js"></script>
   <script src="./scripts/script.js"></script>
 </body>
 </html>
