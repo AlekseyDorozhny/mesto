@@ -94,7 +94,7 @@ function addNewCardContainer(imageSource, imageName) {
     /*Открытие окна просмотра*/
 
   function openImagePopup() {
-    penPopup(imageViewPopup);
+    openPopup(imageViewPopup);
     imageViewImage.src = cardSrc.src;
     imageViewName.textContent = cardName.textContent;
   }
