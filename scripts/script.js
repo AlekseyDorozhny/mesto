@@ -1,5 +1,3 @@
-/* Вопрос ревьюверу: Когда я открываю страницу (или обновляю ее), модалки начинают "моргать", то есть прорисовываются и потом закрываются (я допускаю, что это просходит в пределах 0.1s, указанных параметров transition в popup.css). Получается, что сначала страница отрисовывается и потом уже к ней подключается visibility: hidden; Что можно сделать в данном случае?
-
 /* Переменные */
   /*Общие*/
 const profilePopup = document.querySelector('.popup_type_profile');
@@ -71,13 +69,12 @@ function closeEditProfilePopup() {
 buttonProfilePopupClose.addEventListener('click', closeEditProfilePopup);
 
 /* Обработчик модалки добавления карточек */
-  /*Функция добавления новой карточки*/
+  /*Функция создания новой карточки*/
 function addNewCardContainer(imageSource, imageName) {
   const newCard = cardTemplate.querySelector('.element').cloneNode(true);
   const like = newCard.querySelector('.element__like');
   const trash = newCard.querySelector('.element__trash');
   const cardName = newCard.querySelector('.element__name');
-  const cardSrc = newCard.querySelector('.element__image');
   const image = newCard.querySelector('.element__image');
 
   like.addEventListener ('click', function(evt) {
@@ -89,22 +86,28 @@ function addNewCardContainer(imageSource, imageName) {
   });
 
   cardName.textContent = imageName;
-  cardSrc.src = imageSource;
+  image.src = imageSource;
+  image.alt = `Изображение добавленное пользователем, название ${imageName}`;
 
     /*Открытие окна просмотра*/
 
   function openImagePopup() {
     openPopup(imageViewPopup);
-    imageViewImage.src = cardSrc.src;
+    imageViewImage.src = image.src;
+    imageViewImage.alt = `Изображение добавленное пользователем, название ${imageName}`;
     imageViewName.textContent = cardName.textContent;
   }
 
   image.addEventListener('click', openImagePopup);
 
     /* ......................*/
-
-  elements.prepend(newCard);
+    return newCard;
 }
+
+  /*Функция добавления новой карточки*/
+  function addNewCard(imageSource, imageName) {
+    elements.prepend(addNewCardContainer(imageSource, imageName));
+  }
 
   /*Открытие/закрытие модалки добавления карточек*/
 function openAddCardPopup() {
@@ -115,8 +118,7 @@ buttonAddCardPopupOpen.addEventListener('click', openAddCardPopup);
 
 function closeAddCardPopup() {
   closePopup(addCardPopup);
-  inputCardName.value = '';
-  inputCardSrc.value = '';
+  cardFormElement.reset();
 }
 
 buttonAddCardPopupClose.addEventListener('click', closeAddCardPopup);
@@ -124,8 +126,7 @@ buttonAddCardPopupClose.addEventListener('click', closeAddCardPopup);
   /*Обработчик*/
 function handleFormSubmitAddNewCard(evt) {
   evt.preventDefault();
-
-  addNewCardContainer(inputCardSrc.value, inputCardName.value);
+  addNewCard(inputCardSrc.value, inputCardName.value);
   closeAddCardPopup();
 }
 
@@ -134,7 +135,7 @@ cardFormElement.addEventListener('submit', handleFormSubmitAddNewCard);
   /*Добавление "старых" карточек*/
   function renderInitialCards() {
     for (let i = initialCards.length - 1; i > -1; i--) {
-      addNewCardContainer(initialCards[i].link, initialCards[i].name);
+      addNewCard(initialCards[i].link, initialCards[i].name);
     };
   };
 
