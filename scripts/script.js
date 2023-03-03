@@ -4,6 +4,8 @@ const profilePopup = document.querySelector('.popup_type_profile');
 const addCardPopup = document.querySelector('.popup_type_add-card');
 const imageViewPopup = document.querySelector('.popup_type_image');
 
+
+
   /*Карточки*/
 const cardTemplate = document.querySelector('.card-template').content;
 
@@ -41,6 +43,28 @@ function closePopup(modal) {
   modal.classList.remove('popup_opened');
 };
 
+function closeAllPopup() {
+  closeEditProfilePopup();
+  closeAddCardPopup();
+  closeImagePopup();
+};
+
+  /* Закрытие всех модалок клавишей Esc*/
+document.addEventListener('keydown', function(evt) {
+  if (evt.key === 'Escape') {
+    closeAllPopup();
+  };
+});
+
+  /* Закрытие модалок кликом на темный фон*/
+   /* Комментарий: При вводе неправильной ссылки в модалке добавления карточек мышка автоматически тянется выделить всю ссылку и клавиша мыши отпускается в темном фоне, из-за чего модалка закрывается. По этому вместо 'click' я использовал 'mousedown'*/
+  document.addEventListener('mousedown', function(evt) {
+  if (evt.target.classList.contains('popup')) {
+    closeAllPopup();
+  };
+});
+
+
 /* Обработчик модалки профиля */
   /*Открытие*/
 function renderProfileForm() {
@@ -67,6 +91,7 @@ function closeEditProfilePopup() {
 }
 
 buttonProfilePopupClose.addEventListener('click', closeEditProfilePopup);
+
 
 /* Обработчик модалки добавления карточек */
   /*Функция создания новой карточки*/

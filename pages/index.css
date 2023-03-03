@@ -50,10 +50,27 @@
 @import url(../blocks/image-popup/__name/image-popup__name.css);
 
 
+.form__input-error {
+  font-size: 12px;
+  color: red;
+  opacity: 0;
+  transition: 0.3s;
+  width: 358px;
+  text-align: left;
+  margin: 0px;
+
+}
+
+.form__input-error_active {
+  opacity: 1;
+}
 
 
 
+.name-input-error {
 
+}
 
+.activity-input-error{
 
-
+}
