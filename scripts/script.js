@@ -4,8 +4,6 @@ const profilePopup = document.querySelector('.popup_type_profile');
 const addCardPopup = document.querySelector('.popup_type_add-card');
 const imageViewPopup = document.querySelector('.popup_type_image');
 
-
-
   /*Карточки*/
 const cardTemplate = document.querySelector('.card-template').content;
 

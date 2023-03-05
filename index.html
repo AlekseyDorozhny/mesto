@@ -33,11 +33,15 @@
       <button type="button" class="popup__close-button popup__close-button_area_profile" aria-label="закрыть редактирование профиля"></button>
       <form class="popup__form popup__form_type_profile" name="profileForm" method="post">
         <h2 class="popup__heading">Редактировать профиль</h2>
-        <input type="text" class="popup__input popup__input_type_name"  id="name-input" placeholder="Имя" name="profileNameForm" minlength="2" maxlength="40" required>
-        <span class="form__input-error name-input-error"></span>
-        <input type="text" class="popup__input popup__input_type_activity" id="activity-input" placeholder="О себе" name="profileActivityForm" minlength="2" maxlength="200" required>
-        <span class="form__input-error activity-input-error"></span>
-        <button type="submit" class="popup__save-button popup__save-button_area_profile" aria-label="сохранить редактирование профиля">Сохранить</button>
+        <label class="popup__field">
+          <input type="text" class="popup__input popup__input_type_name"  id="name-input" placeholder="Имя" name="profileNameForm" minlength="2" maxlength="40" required>
+          <span class="popup__error name-input-error"> </span>
+        </label>
+        <label class="popup__field">
+          <input type="text" class="popup__input popup__input_type_activity" id="activity-input" placeholder="О себе" name="profileActivityForm" minlength="2" maxlength="200" required>
+          <span class="popup__error activity-input-error"> </span>
+        </label>
+        <button type="submit" class="popup__save-button popup__save-button_area_profile form__submit" aria-label="сохранить редактирование профиля">Сохранить</button>
       </form>
     </div>
   </div>
@@ -46,11 +50,15 @@
       <button type="button" class="popup__close-button popup__close-button_area_card" aria-label="закрыть добавления карточки"></button>
       <form class="popup__form popup__form_type_card" name="addCardForm" method="post">
         <h2 class="popup__heading">Новое место</h2>
-        <input type="text" class="popup__input popup__input_type_card-name" id="cardName-input" placeholder="Название" name="cardNameForm" minlength="2" maxlength="30" required>
-        <span class="form__input-error cardName-input-error"></span>
-        <input type="url" class="popup__input popup__input_type_card-Src" id="cardSource-input" placeholder="Ссылка на картинку" name="cardSrcForm" required>
-        <span class="form__input-error cardSource-input-error"></span>
-        <button type="submit" class="popup__save-button popup__save-button_area_card" aria-label="добавить новую карточку">Создать</button>
+        <label class="popup__field">
+          <input type="text" class="popup__input popup__input_type_card-name" id="cardName-input" placeholder="Название" name="cardNameForm" minlength="2" maxlength="30" required>
+          <span class="popup__error cardName-input-error"></span>
+        </label>
+        <label class="popup__field">
+          <input type="url" class="popup__input popup__input_type_card-Src" id="cardSource-input" placeholder="Ссылка на картинку" name="cardSrcForm" required>
+          <span class="popup__error cardSource-input-error"></span>
+        </label>
+        <button type="submit" class="popup__save-button popup__save-button_area_card form__submit" aria-label="добавить новую карточку">Создать</button>
       </form>
     </div>
   </div>
