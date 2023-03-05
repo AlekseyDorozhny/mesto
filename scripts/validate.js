@@ -23,13 +23,13 @@ const hideInputError = (formElement, inputElement, setupElement) => {
   inputElement.classList.remove(setupElement.inputErrorClass);
   errorElement.classList.remove(setupElement.errorClass);
   errorElement.textContent = ' ';
+};
 
-  const toggleButtonState = (inputList, buttonElement, setupElement) => {
-    if (hasInvalidInput(inputList)) {
-      buttonElement.classList.add(setupElement.inactiveButtonClass);
-    } else {
-      buttonElement.classList.remove(setupElement.inactiveButtonClass);
-    };
+const toggleButtonState = (inputList, buttonElement, setupElement) => {
+  if (hasInvalidInput(inputList)) {
+    buttonElement.classList.add(setupElement.inactiveButtonClass);
+  } else {
+    buttonElement.classList.remove(setupElement.inactiveButtonClass);
   };
 };
 
