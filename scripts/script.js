@@ -7,7 +7,6 @@ const imageViewPopup = document.querySelector('.popup_type_image');
   /*Карточки*/
 const cardTemplate = document.querySelector('.card-template').content;
 
-
   /*Модалка профиля*/
 const inputName = document.querySelector('.popup__input_type_name');
 const inputActivity = document.querySelector('.popup__input_type_activity');
@@ -30,38 +29,35 @@ const imageViewImage = document.querySelector('.image-popup__image');
 const imageViewName = document.querySelector('.image-popup__name');
 const buttonImageViewClose = document.querySelector('.popup__close-button_area_image');
 
-
 /* Функции открытия/закрытия попапов */
 
 function openPopup(modal) {
   modal.classList.add('popup_opened');
+  document.addEventListener('keydown', escClosePopupHandler);
+  document.addEventListener('mousedown', sideClickCloseHandler);
 };
 
 function closePopup(modal) {
   modal.classList.remove('popup_opened');
-};
-
-function closeAllPopup() {
-  closeEditProfilePopup();
-  closeAddCardPopup();
-  closeImagePopup();
+  document.removeEventListener('keydown', escClosePopupHandler);
+  document.removeEventListener('mousedown', sideClickCloseHandler);
 };
 
   /* Закрытие всех модалок клавишей Esc*/
-document.addEventListener('keydown', function(evt) {
+const escClosePopupHandler = (evt) => {
   if (evt.key === 'Escape') {
-    closeAllPopup();
+    const modal = document.querySelector('.popup_opened');
+    closePopup(modal);
   };
-});
+}
 
   /* Закрытие модалок кликом на темный фон*/
    /* Комментарий: При вводе неправильной ссылки в модалке добавления карточек мышка автоматически тянется выделить всю ссылку и клавиша мыши отпускается в темном фоне, из-за чего модалка закрывается. По этому вместо 'click' я использовал 'mousedown'*/
-  document.addEventListener('mousedown', function(evt) {
+const sideClickCloseHandler = (evt) => {
   if (evt.target.classList.contains('popup')) {
-    closeAllPopup();
+    closePopup(evt.target);
   };
-});
-
+};
 
 /* Обработчик модалки профиля */
   /*Открытие*/
@@ -89,7 +85,6 @@ function closeEditProfilePopup() {
 }
 
 buttonProfilePopupClose.addEventListener('click', closeEditProfilePopup);
-
 
 /* Обработчик модалки добавления карточек */
   /*Функция создания новой карточки*/
@@ -163,7 +158,6 @@ cardFormElement.addEventListener('submit', handleFormSubmitAddNewCard);
   };
 
   renderInitialCards();
-
 
 /* Закрытие модалки просмотра карточек */
 
