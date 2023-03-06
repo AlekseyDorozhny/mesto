@@ -30,7 +30,7 @@ const hideInputError = (formElement, inputElement, validationConfig) => {
       buttonElement.classList.remove(setupElement.inactiveButtonClass);
     };
   };
-};
+
 
 /* Функции проверки валидности */
 const checkValidity = (inputElement, formElement, validationConfig) => {
