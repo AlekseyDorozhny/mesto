@@ -43,7 +43,7 @@ function closePopup(modal) {
   document.removeEventListener('mousedown', sideClickCloseHandler);
 };
 
-  /* Закрытие всех модалок клавишей Esc*/
+
 const escClosePopupHandler = (evt) => {
   if (evt.key === 'Escape') {
     const modal = document.querySelector('.popup_opened');
@@ -51,16 +51,14 @@ const escClosePopupHandler = (evt) => {
   };
 }
 
-  /* Закрытие модалок кликом на темный фон*/
-   /* Комментарий: При вводе неправильной ссылки в модалке добавления карточек мышка автоматически тянется выделить всю ссылку и клавиша мыши отпускается в темном фоне, из-за чего модалка закрывается. По этому вместо 'click' я использовал 'mousedown'*/
+
 const sideClickCloseHandler = (evt) => {
   if (evt.target.classList.contains('popup')) {
     closePopup(evt.target);
   };
 };
 
-/* Обработчик модалки профиля */
-  /*Открытие*/
+
 function renderProfileForm() {
   inputName.value = profileName.textContent;
   inputActivity.value = profileActivity.textContent;
@@ -69,7 +67,7 @@ function renderProfileForm() {
 
 buttonProfilePopupOpen.addEventListener('click', renderProfileForm);
 
-  /*Смена имени*/
+
 function submitEditProfileForm(evt) {
   evt.preventDefault();
   profileName.textContent = inputName.value;
@@ -79,15 +77,15 @@ function submitEditProfileForm(evt) {
 
 profileFormElement.addEventListener('submit', submitEditProfileForm);
 
-  /*Закрытие*/
+
 function closeEditProfilePopup() {
   closePopup(profilePopup);
 }
 
 buttonProfilePopupClose.addEventListener('click', closeEditProfilePopup);
 
-/* Обработчик модалки добавления карточек */
-  /*Функция создания новой карточки*/
+
+
 function addNewCardContainer(imageSource, imageName) {
   const newCard = cardTemplate.querySelector('.element').cloneNode(true);
   const like = newCard.querySelector('.element__like');
@@ -107,7 +105,7 @@ function addNewCardContainer(imageSource, imageName) {
   image.src = imageSource;
   image.alt = `Изображение добавленное пользователем, название ${imageName}`;
 
-    /*Открытие окна просмотра*/
+
 
   function openImagePopup() {
     openPopup(imageViewPopup);
@@ -122,12 +120,12 @@ function addNewCardContainer(imageSource, imageName) {
     return newCard;
 }
 
-  /*Функция добавления новой карточки*/
+
   function addNewCard(imageSource, imageName) {
     elements.prepend(addNewCardContainer(imageSource, imageName));
   }
 
-  /*Открытие/закрытие модалки добавления карточек*/
+
 function openAddCardPopup() {
   openPopup(addCardPopup);
 }
@@ -141,7 +139,7 @@ function closeAddCardPopup() {
 
 buttonAddCardPopupClose.addEventListener('click', closeAddCardPopup);
 
-  /*Обработчик*/
+
 function handleFormSubmitAddNewCard(evt) {
   evt.preventDefault();
   addNewCard(inputCardSrc.value, inputCardName.value);
@@ -150,16 +148,16 @@ function handleFormSubmitAddNewCard(evt) {
 
 cardFormElement.addEventListener('submit', handleFormSubmitAddNewCard);
 
-  /*Добавление "старых" карточек*/
-  function renderInitialCards() {
+
+ /* function renderInitialCards() {
     for (let i = initialCards.length - 1; i > -1; i--) {
       addNewCard(initialCards[i].link, initialCards[i].name);
     };
   };
 
-  renderInitialCards();
+  renderInitialCards();*/
 
-/* Закрытие модалки просмотра карточек */
+
 
 function closeImagePopup() {
   closePopup(imageViewPopup);
