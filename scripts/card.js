@@ -1,3 +1,5 @@
+import {openPopup, imageViewPopup, imageViewImage, imageViewName, inputCardSrc, inputCardName} from './script.js'
+
 const imageCardContainer = document.querySelector('.elements');
 class Card {
   constructor (data, templateSelector) {
@@ -19,6 +21,9 @@ class Card {
   _setEventListener(element) {
     const trashElement = element.querySelector('.element__trash');
     const likeElement = element.querySelector('.element__like');
+    const elementImage = element.querySelector('.element__image');
+    const elementName = element.querySelector('.element__name');
+
 
     trashElement.addEventListener ('click', () => {
       element.remove();
@@ -29,12 +34,13 @@ class Card {
       this._isLiked = true;
     });
 
-    /*this.element.addEventListener ('click', () => {
+
+    elementImage.addEventListener ('click', () => {
       openPopup(imageViewPopup);
-      imageViewImage.src = this._link;
-      imageViewImage.alt = `Изображение добавленное пользователем, название ${this._name}`;
-      imageViewName.textContent = this._name;
-    });*/
+    imageViewImage.src = elementImage.src;
+    imageViewImage.alt = `Изображение добавленное пользователем, название ${elementName}`;
+    imageViewName.textContent = elementName.textContent;
+    });
   };
 
   _generateCard() {
@@ -47,22 +53,23 @@ class Card {
 
 };
 
-const renderElements = () => {
-  initialCards.forEach((item) => {
+export const renderElements = (data) => {
+  data.forEach((item) => {
     const card = new Card (item, '.card-template');
     const CardElement = card._generateCard();
     imageCardContainer.append(CardElement);
   });
 };
 
-renderElements();
 
-const renderNewElement = (name, link) => {
-  const data = {};
-  data.name = name;
-  data.link = link;
-  const card = new Card (data, '.card-template');
+
+const addNewElement = (elementName, elementLink, data) => {
+  data.unshift({name: elementName, link: elementLink});
+  const card = new Card(data[0], '.card-template');
   const CardElement = card._generateCard();
   imageCardContainer.prepend(CardElement);
 }
 
+export const renderNewElement = () => {
+  addNewElement(inputCardName.value, inputCardSrc.value, initialCards);
+};
