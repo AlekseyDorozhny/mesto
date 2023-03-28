@@ -1,7 +1,7 @@
-import {openPopup, imageViewPopup, imageViewImage, imageViewName, inputCardSrc, inputCardName} from './script.js'
+import {openPopup, imageViewPopup, imageViewImage, imageViewName} from './script.js'
 
-const imageCardContainer = document.querySelector('.elements');
-class Card {
+
+export class Card {
   constructor (data, templateSelector) {
     this._templateSelector = templateSelector;
     this._name = data.name;
@@ -51,25 +51,4 @@ class Card {
     return element;
   };
 
-};
-
-export const renderElements = (data) => {
-  data.forEach((item) => {
-    const card = new Card (item, '.card-template');
-    const CardElement = card._generateCard();
-    imageCardContainer.append(CardElement);
-  });
-};
-
-
-
-const addNewElement = (elementName, elementLink, data) => {
-  data.unshift({name: elementName, link: elementLink});
-  const card = new Card(data[0], '.card-template');
-  const CardElement = card._generateCard();
-  imageCardContainer.prepend(CardElement);
-}
-
-export const renderNewElement = () => {
-  addNewElement(inputCardName.value, inputCardSrc.value, initialCards);
 };

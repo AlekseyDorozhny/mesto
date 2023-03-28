@@ -1,11 +1,13 @@
-import {renderNewElement, renderElements} from './card.js';
-import {initialCards} from './constants.js';
+import {Card} from './card.js';
+import {initialCards, validationConfig} from './constants.js';
+import {FormValidator} from './FormValidator.js'
 
 /* Переменные */
   /*Общие*/
 const profilePopup = document.querySelector('.popup_type_profile');
 const addCardPopup = document.querySelector('.popup_type_add-card');
 export const imageViewPopup = document.querySelector('.popup_type_image');
+const imageCardContainer = document.querySelector('.elements');
 
   /*Модалка профиля*/
 const inputName = document.querySelector('.popup__input_type_name');
@@ -19,8 +21,8 @@ const profileFormElement = document.querySelector('.popup__form_type_profile');
   /*Модалка добавления карточек*/
 const buttonAddCardPopupOpen = document.querySelector('.profile__add-button');
 const buttonAddCardPopupClose = document.querySelector('.popup__close-button_area_card');
-export const inputCardName = document.querySelector('.popup__input_type_card-name');
-export const inputCardSrc = document.querySelector('.popup__input_type_card-Src');
+const inputCardName = document.querySelector('.popup__input_type_card-name');
+const inputCardSrc = document.querySelector('.popup__input_type_card-Src');
 const cardFormElement = document.querySelector('.popup__form_type_card');
 
 
@@ -100,7 +102,7 @@ buttonAddCardPopupClose.addEventListener('click', closeAddCardPopup);
 
 function handleFormSubmitAddNewCard(evt) {
   evt.preventDefault();
-  renderNewElement();
+  renderNewCardElement();
   closeAddCardPopup();
 }
 
@@ -112,5 +114,33 @@ function closeImagePopup() {
 
 buttonImageViewClose.addEventListener('click', closeImagePopup);
 
+const renderCardElements = (data) => {
+  data.forEach((item) => {
+    const card = new Card (item, '.card-template');
+    const CardElement = card._generateCard();
+    imageCardContainer.append(CardElement);
+  });
+};
 
-renderElements(initialCards);
+renderCardElements(initialCards);
+
+const addNewCardElement = (elementName, elementLink, data) => {
+  data.unshift({name: elementName, link: elementLink});
+  const card = new Card(data[0], '.card-template');
+  const CardElement = card._generateCard();
+  imageCardContainer.prepend(CardElement);
+}
+
+const renderNewCardElement = () => {
+  addNewCardElement(inputCardName.value, inputCardSrc.value, initialCards);
+};
+
+
+const formList = Array.from(document.querySelectorAll('.popup__form'));
+  formList.forEach((formElement) => {
+    console.log(formElement)
+    const validationItem = new FormValidator(validationConfig, formElement);
+    console.log('Создание копии класса');
+    console.log(validationItem);
+    validationItem.enableValidation();
+  });
