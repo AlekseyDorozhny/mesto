@@ -1,4 +1,5 @@
-import {openPopup, imageViewPopup, imageViewImage, imageViewName} from './script.js'
+import {imageViewPopup, imageViewImage, imageViewName} from '../utils/constants.js'
+import {openPopup} from '../utils/utils.js'
 
 
 export class Card {
@@ -38,16 +39,19 @@ export class Card {
     elementImage.addEventListener ('click', () => {
       openPopup(imageViewPopup);
     imageViewImage.src = elementImage.src;
-    imageViewImage.alt = `Изображение добавленное пользователем, название ${elementName}`;
+    imageViewImage.alt = `Изображение добавленное пользователем, название: ${this._name}`;
     imageViewName.textContent = elementName.textContent;
     });
   };
 
   _generateCard() {
     const element = this._getTemplate();
+    const name = element.querySelector('.element__name');
     this._setEventListener(element);
     element.querySelector('.element__image').src = this._link;
-    element.querySelector('.element__name').textContent = this._name;
+    name.textContent = this._name;
+    name.alt = `Изображение добавленное пользователем, название ${this._name}`;
+
     return element;
   };
 

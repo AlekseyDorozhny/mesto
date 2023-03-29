@@ -1,3 +1,5 @@
+import {buttonProfilePopupOpen, buttonAddCardPopupOpen} from '../utils/constants.js'
+
 export class FormValidator {
   constructor (validationConfig, formElement) {
     this._formElement = formElement;
@@ -5,13 +7,11 @@ export class FormValidator {
     this._submitButtonSelector = validationConfig.submitButtonSelector;
     this._inactiveButtonClass = validationConfig.inactiveButtonClass;
     this._inputErrorClass = validationConfig.inputErrorClass;
-    this._errorClass = 'popup__error_visible';
+    this._errorClass = validationConfig.errorClass;
   };
 
   _showInputError(inputElement) {
     const errorElement = this._formElement.querySelector(`.${inputElement.id}-error`);
-    console.log(errorElement)
-    console.log(inputElement)
     inputElement.classList.add(this._inputErrorClass);
     errorElement.textContent = inputElement.validationMessage;
     errorElement.classList.add(this._errorClass);
@@ -27,17 +27,17 @@ export class FormValidator {
   _toggleButtonState() {
     if (this._hasInvalidInput(this._inputList)) {
       this._buttonElement.classList.add(this._inactiveButtonClass);
+      this._buttonElement.disabled = true;
     } else {
       this._buttonElement.classList.remove(this._inactiveButtonClass);
+      this._buttonElement.disabled = false;
     };
   };
 
   _checkValidity(inputElement) {
     if (!inputElement.validity.valid) {
-      console.log('ПЛОХО')
       this._showInputError(inputElement);
     } else {
-      console.log('ХОРОШО')
       this._hideInputError(inputElement);
     };
   };
@@ -52,19 +52,19 @@ export class FormValidator {
     this._buttonElement = this._formElement.querySelector(this._submitButtonSelector);
     this._inputList = Array.from(this._formElement.querySelectorAll(this._inputSelector));
     this._toggleButtonState();
-    console.log(this._inputList)
     this._inputList.forEach((inputElement) => {
       inputElement.addEventListener('input', () => {
         this._checkValidity(inputElement);
         this._toggleButtonState()
-        console.log(this)
       });
     });
   };
 
   enableValidation() {
+    const activeValidator = this;
     this._formElement.addEventListener('submit', function (evt) {
       evt.preventDefault();
+      activeValidator._toggleButtonState();
     });
     this._setEventListeners();
   };
