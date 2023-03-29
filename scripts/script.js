@@ -70,14 +70,14 @@ const renderCardElements = (data) => {
 
 renderCardElements(initialCards);
 
-const addNewCardElement = (elementName, elementLink, data) => {
-  data.unshift({name: elementName, link: elementLink});
-  const cardElement = createCard(data[0], '.card-template');
+const addNewCardElement = (name, link) => {
+  const cardData = {name:name, link:link}
+  const cardElement = createCard(cardData, '.card-template');
   imageCardContainer.prepend(cardElement);
 }
 
 const renderNewCardElement = () => {
-  addNewCardElement(inputCardName.value, inputCardSrc.value, initialCards);
+  addNewCardElement(inputCardName.value, inputCardSrc.value);
 };
 
 const formList = Array.from(document.querySelectorAll('.popup__form'));
