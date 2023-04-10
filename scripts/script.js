@@ -1,10 +1,11 @@
 import {initialCards, validationConfig, buttonProfilePopupOpen, profileFormElement,buttonProfilePopupClose, buttonAddCardPopupOpen, buttonAddCardPopupClose, cardFormElement, buttonImageViewClose, imageCardContainer, inputName, profileName, inputActivity, profileActivity, profilePopup, addCardPopup, inputCardName, inputCardSrc, imageViewPopup} from '../utils/constants.js';
 import {openPopup, closePopup} from '../utils/utils.js';
-import {Card} from './Card.js';
+import {Card} from './card.js';
 import {FormValidator} from './FormValidator.js'
+import {Popup} from './Popup.js';
 
 /* Функции открытия/закрытия попапов */
-
+/*
 function renderProfileForm() {
   inputName.value = profileName.textContent;
   inputActivity.value = profileActivity.textContent;
@@ -55,8 +56,11 @@ function closeImagePopup() {
 
 buttonImageViewClose.addEventListener('click', closeImagePopup);
 
+
+*/
+
 const createCard = (data, templateSelector) => {
-  const card = new Card (data, templateSelector);
+  const card = new Card(data, templateSelector);
   const cardElement = card._generateCard();
   return cardElement
 };
@@ -79,9 +83,19 @@ const addNewCardElement = (name, link) => {
 const renderNewCardElement = () => {
   addNewCardElement(inputCardName.value, inputCardSrc.value);
 };
-
 const formList = Array.from(document.querySelectorAll('.popup__form'));
   formList.forEach((formElement) => {
     const validationItem = new FormValidator(validationConfig, formElement);
     validationItem.enableValidation();
   });
+
+const popupHendler = (selector, buttonElement) => {
+  const popup = new Popup(selector);
+  popup.setEventListeners();
+  buttonElement.addEventListener('click', () => {
+    popup.open();
+  });
+};
+
+popupHendler('.popup_type_profile', buttonProfilePopupOpen);
+popupHendler('.popup_type_add-card', buttonAddCardPopupOpen);

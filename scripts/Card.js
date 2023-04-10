@@ -25,18 +25,17 @@ export class Card {
     const elementImage = element.querySelector('.element__image');
     const elementName = element.querySelector('.element__name');
 
-
-    trashElement.addEventListener ('click', () => {
+    trashElement.addEventListener('click', () => {
       element.remove();
     });
 
-    likeElement.addEventListener ('click', (evt) => {
+    likeElement.addEventListener('click', (evt) => {
       evt.target.classList.toggle('element__like_status_active');
       this._isLiked = true;
     });
 
 
-    elementImage.addEventListener ('click', () => {
+    elementImage.addEventListener('click', () => {
       openPopup(imageViewPopup);
     imageViewImage.src = elementImage.src;
     imageViewImage.alt = `Изображение добавленное пользователем, название: ${this._name}`;
@@ -51,7 +50,6 @@ export class Card {
     element.querySelector('.element__image').src = this._link;
     name.textContent = this._name;
     name.alt = `Изображение добавленное пользователем, название ${this._name}`;
-
     return element;
   };
 
