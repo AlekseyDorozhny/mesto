@@ -1,8 +1,8 @@
 import {initialCards, validationConfig, buttonProfilePopupOpen, profileFormElement,buttonProfilePopupClose, buttonAddCardPopupOpen, buttonAddCardPopupClose, cardFormElement, buttonImageViewClose, imageCardContainer, inputName, profileName, inputActivity, profileActivity, profilePopup, addCardPopup, inputCardName, inputCardSrc, imageViewPopup} from '../utils/constants.js';
-import {openPopup, closePopup} from '../utils/utils.js';
 import {Card} from './card.js';
 import {FormValidator} from './FormValidator.js'
 import {Popup} from './Popup.js';
+import {Section} from './Section.js';
 
 /* Функции открытия/закрытия попапов */
 /*
@@ -72,7 +72,21 @@ const renderCardElements = (data) => {
   });
 };
 
-renderCardElements(initialCards);
+
+
+
+/*renderCardElements(initialCards);*/
+
+const cardList = new Section ({
+  items: initialCards,
+  renderer: (item) => {
+    const card = new Card(item, '.card-template');
+    const cardElement = card._generateCard();
+    cardList.addItem(cardElement)
+  }
+  },imageCardContainer);
+
+  cardList.renderItems();
 
 const addNewCardElement = (name, link) => {
   const cardData = {name:name, link:link}

@@ -1,5 +1,5 @@
 import {imageViewPopup, imageViewImage, imageViewName} from '../utils/constants.js'
-import {openPopup} from '../utils/utils.js'
+
 
 
 export class Card {
