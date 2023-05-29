@@ -1,5 +1,5 @@
 export class Popup {
-  constructor (selector) {
+  constructor(selector) {
     this._selector = selector;
     this._status = 'closed';
     this._element = document.querySelector(selector);

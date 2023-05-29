@@ -1,13 +1,11 @@
-import {imageViewPopup, imageViewImage, imageViewName} from '../utils/constants.js'
-
-
-
 export class Card {
-  constructor (data, templateSelector) {
+  constructor ({data, handleCardClick}, templateSelector) {
     this._templateSelector = templateSelector;
     this._name = data.name;
     this._link = data.link;
     this._isLiked = false;
+    this.handleCardClick = handleCardClick;
+    this._elementImage = 'Присваивается ниже';
   };
 
   _getTemplate() {
@@ -19,10 +17,12 @@ export class Card {
     return cardElement;
   };
 
+
   _setEventListener(element) {
     const trashElement = element.querySelector('.element__trash');
     const likeElement = element.querySelector('.element__like');
     const elementImage = element.querySelector('.element__image');
+     this._elementImage = elementImage;
     const elementName = element.querySelector('.element__name');
 
     trashElement.addEventListener('click', () => {
@@ -34,12 +34,8 @@ export class Card {
       this._isLiked = true;
     });
 
-
-    elementImage.addEventListener('click', () => {
-      openPopup(imageViewPopup);
-    imageViewImage.src = elementImage.src;
-    imageViewImage.alt = `Изображение добавленное пользователем, название: ${this._name}`;
-    imageViewName.textContent = elementName.textContent;
+    this._elementImage.addEventListener('click', () => {
+      this.handleCardClick();
     });
   };
 
@@ -52,5 +48,4 @@ export class Card {
     name.alt = `Изображение добавленное пользователем, название ${this._name}`;
     return element;
   };
-
 };
