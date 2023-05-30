@@ -8,7 +8,6 @@ export class UserInfo {
     const name = this.userName.textContent;
     const activity = this.userActivity.textContent;
     const userInfo = {name, activity}
-    console.log(userInfo);
     return userInfo
   };
 

@@ -33,11 +33,11 @@ formList.forEach((formElement) => {
     validationItem.enableValidation();
   });
 
-  console.log({profileName, profileActivity})
+
  /*Пользователь*/
   const userInfo = new UserInfo(profileName, profileActivity);
 
- console.log(userInfo);
+
   /*Попапы с формами*/
 const profileFormCallback = (popup) => {
   const name = popup.inputsValues[0];
