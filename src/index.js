@@ -1,10 +1,11 @@
-import {initialCards, validationConfig, buttonProfilePopupOpen, buttonAddCardPopupOpen, imageCardContainer, profileName,profileActivity} from '../utils/constants.js';
-import {Card} from './card.js';
-import {FormValidator} from './FormValidator.js'
-import {Section} from './Section.js';
-import {PopupWithImage} from './PopupWithImage.js';
-import {PopupWithForm} from './PopupWithForm.js';
-import {UserInfo} from './UserInfo.js';
+import './pages/index.css';
+import {initialCards, validationConfig, buttonProfilePopupOpen, buttonAddCardPopupOpen, imageCardContainer, profileName,profileActivity} from './utils/constants';
+import {Card} from './scripts/Card';
+import {FormValidator} from './scripts/FormValidator.js'
+import {Section} from './scripts/Section.js';
+import {PopupWithImage} from './scripts/PopupWithImage.js';
+import {PopupWithForm} from './scripts/PopupWithForm.js';
+import {UserInfo} from './scripts/UserInfo.js';
 
 
 const imagePopup = new PopupWithImage('.popup_type_image');
@@ -63,5 +64,3 @@ const popupFormHendler = (selector, buttonElement, callback) => {
 
 popupFormHendler('.popup_type_profile', buttonProfilePopupOpen, profileFormCallback);
 popupFormHendler('.popup_type_add-card', buttonAddCardPopupOpen, addCardFormCallback);
-
-
