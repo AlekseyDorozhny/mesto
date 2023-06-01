@@ -1,5 +1,3 @@
-import {buttonProfilePopupOpen, buttonAddCardPopupOpen} from '../utils/constants.js'
-
 export class FormValidator {
   constructor (validationConfig, formElement) {
     this._formElement = formElement;
@@ -24,13 +22,21 @@ export class FormValidator {
     errorElement.textContent = ' ';
   };
 
+  _enableSubmitButton() {
+    this._buttonElement.classList.remove(this._inactiveButtonClass);
+    this._buttonElement.disabled = false;
+  };
+
+  disableSubmitButton() {
+    this._buttonElement.classList.add(this._inactiveButtonClass);
+    this._buttonElement.disabled = true;
+  };
+
   _toggleButtonState() {
     if (this._hasInvalidInput(this._inputList)) {
-      this._buttonElement.classList.add(this._inactiveButtonClass);
-      this._buttonElement.disabled = true;
+      this.disableSubmitButton();
     } else {
-      this._buttonElement.classList.remove(this._inactiveButtonClass);
-      this._buttonElement.disabled = false;
+      this._enableSubmitButton();
     };
   };
 
@@ -66,6 +72,9 @@ export class FormValidator {
       evt.preventDefault();
       activeValidator._toggleButtonState();
     });
+    this._formElement.addEventListener('reset', () => {
+      activeValidator.disableSubmitButton();
+    })
     this._setEventListeners();
   };
 };

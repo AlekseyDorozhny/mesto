@@ -1,11 +1,11 @@
-import './pages/index.css';
-import {initialCards, validationConfig, buttonProfilePopupOpen, buttonAddCardPopupOpen, imageCardContainer, profileName,profileActivity} from './utils/constants';
-import {Card} from './scripts/Card';
-import {FormValidator} from './scripts/FormValidator.js'
-import {Section} from './scripts/Section.js';
-import {PopupWithImage} from './scripts/PopupWithImage.js';
-import {PopupWithForm} from './scripts/PopupWithForm.js';
-import {UserInfo} from './scripts/UserInfo.js';
+import '../pages/index.css';
+import {initialCards, validationConfig, buttonProfilePopupOpen, buttonAddCardPopupOpen, imageCardContainer, profileName,profileActivity} from '../utils/constants';
+import {Card} from '../scripts/Card';
+import {FormValidator} from '../scripts/FormValidator.js'
+import {Section} from '../scripts/Section.js';
+import {PopupWithImage} from '../scripts/PopupWithImage.js';
+import {PopupWithForm} from '../scripts/PopupWithForm.js';
+import {UserInfo} from '../scripts/UserInfo.js';
 
 
 const imagePopup = new PopupWithImage('.popup_type_image');
@@ -15,9 +15,9 @@ imagePopup.setEventListeners();
 /*Работа с карточками*/
 const cardsRenderer = (item) => {
   const card = new Card({data: item, handleCardClick: () => {
-    imagePopup._name = card._name;
-    imagePopup._link = card._link;
-    imagePopup.open();
+    const name = card._name
+    const link = card._link
+    imagePopup.open(name, link);
   }},
     '.card-template');
   const cardElement = card._generateCard();
@@ -40,21 +40,22 @@ formList.forEach((formElement) => {
 
 
   /*Попапы с формами*/
-const profileFormCallback = (popup) => {
-  const name = popup.inputsValues[0];
-  const activity = popup.inputsValues[1];
+const profileFormCallback = (inputsValues) => {
+  const name = inputsValues.profileNameForm;
+  const activity = inputsValues.profileActivityForm;
   userInfo.setUserInfo({name, activity});
 };
 
-const addCardFormCallback = (popup) => {
-  const data = {name: popup.inputsValues[0], link: popup.inputsValues[1]};
+const addCardFormCallback = (inputsValues) => {
+  const data = {name: inputsValues.cardNameForm, link: inputsValues.cardSrcForm};
   cardsRenderer(data);
 };
 
 
 const popupFormHendler = (selector, buttonElement, callback) => {
   const popup = new PopupWithForm(selector, () => {
-    callback(popup);
+    const inputsValues = popup.inputsValues
+    callback(inputsValues);
   });
   popup.setEventListeners();
   buttonElement.addEventListener('click', () => {
