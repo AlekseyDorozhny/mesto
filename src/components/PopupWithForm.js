@@ -21,14 +21,15 @@ export class PopupWithForm extends Popup {
     super.setEventListeners();
     this._formElement.addEventListener('submit', (evt) => {
       evt.preventDefault();
+      this.saveButton.textContent = "Сохранение..."
       this._getInputValues();
       this._formCallback();
-
     });
   };
 
   close() {
     this._formElement.reset();
     super.close();
+    this.saveButton.textContent = "Сохранить"
   };
 };

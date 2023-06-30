@@ -43,7 +43,7 @@ export class Card {
   };
 
   _likeChecker () {
-    this.liked = this.likes.includes(this._userId);
+    /*this.liked = this.likes.includes(this._userId);*/
   };
 
   _generateCard() {
@@ -60,7 +60,7 @@ export class Card {
     element.querySelector('.element__image').src = this.link;
     name.textContent = this.name;
     name.alt = `Изображение добавленное пользователем, название ${this.name}`;
-    likeCounter.textContent = this.likes.length;
+    /*likeCounter.textContent = this.likes.length;*/
     return element;
   };
 };

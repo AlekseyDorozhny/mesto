@@ -15,24 +15,30 @@ const cohort = 'cohort-70';
 const key = 'a400d028-60ca-4464-923c-d42d02840b32';
 const api = new Api(cohort, key)
 
-const serverCardsHendler = async () => {
-  await api.getInitialCards()
+ /*Пользователь*/
+ const userInfo = new UserInfo(profileName, profileActivity, profileAvatar);
+
+const serverCardsHendler = () => {
+  new Promise((resolve, reject) => {
+    api.getInitialCards(resolve)
+  })
   .then(() => cardList._items = api.cardData)
   .then(() => cardList.renderItems())
 };
 
-const getUserInfoCallBack = () => {
-  const name = api.name;
-  const activity = api.activity;
-  const avatar = api.avatar;
-  userInfo.setUserInfo({name, activity, avatar})
+
+const serverUserInfoHendler = () => {
+  new Promise((resolve, reject) => {
+    api.getUserInfo(resolve)
+  }).then(() => {
+    const name = api.name;
+    const activity = api.activity;
+    const avatar = api.avatar;
+    userInfo.setUserInfo({name, activity, avatar})
+  })
 }
 
-const serverUserInfoHendler = (uxCallback) => {
-  api.getUserInfo(getUserInfoCallBack, uxCallback);
-}
-
-serverUserInfoHendler(() => {});
+serverUserInfoHendler();
 
 /*Работа с карточками*/
 
@@ -67,43 +73,47 @@ formList.forEach((formElement) => {
     validationItem.enableValidation();
   });
 
- /*Пользователь*/
-const userInfo = new UserInfo(profileName, profileActivity, profileAvatar);
-
   /*Попапы с формами*/
 
-const profileFormCallback = (inputsValues, saveButton, uxCallback) => {
-  saveButton.textContent = 'Сохранение...'
+const profileFormCallback = (inputsValues, popup) => {
   const name = inputsValues.profileNameForm;
   const activity = inputsValues.profileActivityForm;
-  api.sendUserInfo(name, activity, () => {
-    serverUserInfoHendler(uxCallback);
-  });
+  new Promise((resolve, reject) => {
+    api.sendUserInfo(name, activity, resolve);
+  })
+  .then(() => serverUserInfoHendler())
+  .then(() => popup.close())
 };
 
 const addCardFormCallback = (inputsValues) => {
-  const data = {name: inputsValues.cardNameForm, link: inputsValues.cardSrcForm};
-  cardsRenderer(data);
+  const name = inputsValues.cardNameForm;
+  const link = inputsValues.cardSrcForm;
+  console.log(name)
+  console.log(link)
+  new Promise((resolve, reject) => {
+    api.sendCard(link, name, resolve)
+  }).then(() => {
+    serverCardsHendler()
+    })
+    /*const data = {name: inputsValues.cardNameForm, link: inputsValues.cardSrcForm};
+  cardsRenderer(data);*/
 };
 
-const avatarFormCallback = (inputsValues, saveButton, uxCallback) => {
-  saveButton.textContent = 'Сохранение...'
+const avatarFormCallback = (inputsValues, popup) => {
   const url = inputsValues.avatarSrcForm;
-    api.sendUserAvatar(url, () => {
-      serverUserInfoHendler(uxCallback);
-    })
-  };
+  new Promise((resolve, reject) => {
+    api.sendUserAvatar(url, resolve)
+  })
+  .then(() => serverUserInfoHendler())
+  .then(() => popup.close())
+};
 
 
 
 const popupFormHendler = (selector, buttonElement, callback) => {
   const popup = new PopupWithForm(selector, () => {
     const inputsValues = popup.inputsValues
-    const saveButton = popup.saveButton
-    callback(inputsValues, saveButton, () => {
-      popup.close();
-      saveButton.textContent = 'Сохранить'
-    });
+    callback(inputsValues, popup);
   });
   popup.setEventListeners();
   buttonElement.addEventListener('click', () => {
