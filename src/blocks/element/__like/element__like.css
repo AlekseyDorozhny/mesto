@@ -1,11 +1,11 @@
 .element__like {
-  width: 24px;
-  height: 19px;
+  width: 23px;
+  height: 20px;
   align-self: center;
-  margin-right: 20px;
   background-color: white;
   background-image: url(../../../Images/likeInactiv.svg);
   object-fit: cover;
+  background-position: center;
   border: none;
   transition: opacity .3s;
   background-repeat: no-repeat;

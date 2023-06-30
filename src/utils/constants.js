@@ -49,6 +49,7 @@ export const validationConfig = {
   export const buttonProfilePopupOpen = document.querySelector('.profile__edit-button');
   export const buttonProfilePopupClose = document.querySelector('.popup__close-button_area_profile');
   export const profileFormElement = document.querySelector('.popup__form_type_profile');
+  export const profileAvatar = document.querySelector('.profile__avatar');
 
     /*Модалка добавления карточек*/
   export const buttonAddCardPopupOpen = document.querySelector('.profile__add-button');

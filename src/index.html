@@ -14,8 +14,8 @@
       <div class="profile__avatar">
       </div>
       <div class="profile__info">
-        <h1 class="profile__name">Жак-Ив Кусто</h1>
-        <p class="profile__activity">Исследователь океана</p>
+        <h1 class="profile__name"></h1>
+        <p class="profile__activity"></p>
         <button class="profile__edit-button" type="button" aria-label="редактирование профиля">
         </button>
       </div>
@@ -68,6 +68,28 @@
       <h2 class="image-popup__name"></h2>
     </div>
   </div>
+  <div class="popup popup_type_avatar">
+    <div class="popup__container">
+      <button type="button" class="popup__close-button popup__close-button_area_avatar" aria-label="закрыть изменение аватара"></button>
+      <form class="popup__form popup__form_type_avatar" name="changeAvatarForm" method="post">
+        <h2 class="popup__heading">Обновить аватар</h2>
+        <label class="popup__field">
+          <input type="url" class="popup__input popup__input_type_avatar-src" id="avatarSrc-input" placeholder="Ссылка на аватар" name="avatarSrcForm" required>
+          <span class="popup__error avatarSrc-input-error"></span>
+        </label>
+        <button type="submit" class="popup__save-button popup__save-button_area_avatar" aria-label="сменить аватар">Сохранить</button>
+      </form>
+    </div>
+  </div>
+  <div class="popup popup_type_confirm ">
+    <div class="popup__container">
+      <button type="button" class="popup__close-button popup__close-button_area_confirm" aria-label="я не уверен :с"></button>
+      <form class="popup__form popup__form_type_confirm" name="confirmForm" method="post">
+        <h2 class="popup__heading">Вы уверены?</h2>
+        <button type="submit" class="popup__save-button popup__save-button_area_confirm" aria-label="подтверждение действия">Да</button>
+      </form>
+    </div>
+  </div>
   <template class="card-template">
     <article class="element">
     <div class="element__image-container">
@@ -76,7 +98,10 @@
     </div>
     <div class="element__plank">
       <h2 class="element__name"></h2>
-      <button class="element__like" type="button" aria-label="лайк"></button>
+      <div class="element__like-container">
+        <button class="element__like" type="button" aria-label="лайк"></button>
+        <p class="element__like-counter">0</p>
+      </div>
     </div>
     </article>
   </template>
