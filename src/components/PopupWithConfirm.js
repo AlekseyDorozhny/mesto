@@ -1,6 +1,6 @@
 import { Popup } from "./Popup.js";
 
-export class PopupWithForm extends Popup {
+export class PopupWithConfirm extends Popup {
   constructor(selector, formCallback) {
     super(selector);
     this._formCallback = formCallback;
@@ -14,7 +14,6 @@ export class PopupWithForm extends Popup {
     this._inputList.forEach((input) => {
       this.inputsValues[input.name] = input.value;
     });
-
   };
 
   setEventListeners() {
@@ -22,14 +21,21 @@ export class PopupWithForm extends Popup {
     this._formElement.addEventListener('submit', (evt) => {
       evt.preventDefault();
       this.saveButton.textContent = "Сохранение..."
-      this._getInputValues();
       this._formCallback();
     });
   };
 
-  close(text) {
+  close() {
     this._formElement.reset();
     super.close();
-    this.saveButton.textContent = text;
+    this.saveButton.textContent = 'Да';
+    this.id = ""
   };
+
+  open(id, element) {
+    this.id = id;
+    this.element = element;
+    super.open();
+    console.log(this.id)
+  }
 };

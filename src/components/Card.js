@@ -11,7 +11,7 @@ export class Card {
       this.handleDeleteIconClick = handleDeleteIconClick;
       this._elementImage = 'Присваивается ниже';
       this._id = data._id;
-      this._userId = userId;
+      this._userId = 'f8f8cec4575e76a3614dd984';
   };
 
   _getTemplate() {
@@ -25,16 +25,17 @@ export class Card {
 
   _setEventListener(element) {
     const trashElement = element.querySelector('.element__trash');
+    this.trashElement = trashElement;
     this.likeElement = element.querySelector('.element__like');
     const elementImage = element.querySelector('.element__image');
     this._elementImage = elementImage;
 
     trashElement.addEventListener('click', () => {
-      this.handleDeleteIconClick();
+      this.handleDeleteIconClick(this._id, element);
     });
 
     this.likeElement.addEventListener('click', (evt) => {
-      this.handleLikeClick();
+      this.handleLikeClick(this._id);
     });
 
     this._elementImage.addEventListener('click', () => {
@@ -42,25 +43,41 @@ export class Card {
     });
   };
 
-  _likeChecker () {
-    /*this.liked = this.likes.includes(this._userId);*/
+  likeChecker () {
+    this.liked = this.likes.some(e => e._id === this._userId)
   };
 
-  _generateCard() {
-    this._likeChecker();
-    const element = this._getTemplate();
-    const name = element.querySelector('.element__name');
-    const likeCounter = element.querySelector('.element__like-counter');
-    this._setEventListener(element);
+  likeCounterHendler() {
+    const likeCounter = this.element.querySelector('.element__like-counter');
+    likeCounter.textContent = this.likes.length;
+  }
 
+  likeToggler() {
     if (this.liked) {
       this.likeElement.classList.add('element__like_status_active')
+    } else {
+      this.likeElement.classList.remove('element__like_status_active')
     }
+  }
 
+  refreshLikeData(data) {
+    this.likes = data.likes;
+  }
+
+  _generateCard() {
+    this.likeChecker(this._userId);
+    const element = this._getTemplate();
+    this.element = element
+    const name = element.querySelector('.element__name');
+    this._setEventListener(element);
+    this.likeCounterHendler()
+    this.likeToggler();
     element.querySelector('.element__image').src = this.link;
     name.textContent = this.name;
     name.alt = `Изображение добавленное пользователем, название ${this.name}`;
-    /*likeCounter.textContent = this.likes.length;*/
+    if (this.owner._id === this._userId) {
+      this.trashElement.style = `display: block`
+    }
     return element;
   };
 };

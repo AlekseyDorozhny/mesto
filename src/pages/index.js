@@ -6,7 +6,8 @@ import {Section} from '../components/Section.js';
 import {PopupWithImage} from '../components/PopupWithImage.js';
 import {PopupWithForm} from '../components/PopupWithForm.js';
 import {UserInfo} from '../components/UserInfo.js';
-import { Api } from '../components/API.js';
+import {Api} from '../components/API.js';
+import {PopupWithConfirm} from '../components/PopupWithConfirm.js';
 
 const imagePopup = new PopupWithImage('.popup_type_image');
 imagePopup.setEventListeners();
@@ -16,21 +17,17 @@ const key = 'a400d028-60ca-4464-923c-d42d02840b32';
 const api = new Api(cohort, key)
 
  /*Пользователь*/
- const userInfo = new UserInfo(profileName, profileActivity, profileAvatar);
+const userInfo = new UserInfo(profileName, profileActivity, profileAvatar);
 
 const serverCardsHendler = () => {
-  new Promise((resolve, reject) => {
-    api.getInitialCards(resolve)
-  })
+  api.getInitialCards()
   .then(() => cardList._items = api.cardData)
   .then(() => cardList.renderItems())
 };
 
-
 const serverUserInfoHendler = () => {
-  new Promise((resolve, reject) => {
-    api.getUserInfo(resolve)
-  }).then(() => {
+  api.getUserInfo()
+  .then(() => {
     const name = api.name;
     const activity = api.activity;
     const avatar = api.avatar;
@@ -39,8 +36,15 @@ const serverUserInfoHendler = () => {
 }
 
 serverUserInfoHendler();
+serverCardsHendler();
 
 /*Работа с карточками*/
+
+const cardLikesHandler = (card) => {
+  card.refreshLikeData(api.resreshedLikeData)
+  card.likeCounterHendler()
+  card.likeToggler()
+}
 
 const cardsRenderer = (item) => {
   const card = new Card({data: item,
@@ -49,24 +53,29 @@ const cardsRenderer = (item) => {
       const link = card.link
       imagePopup.open(name, link);
     },
-    handleLikeClick: () => {
-
+    handleLikeClick: (CardID) => {
+      card.likeChecker();
+      if (!card.liked) {
+        api.putLikeHendler(CardID)
+        .then(() => {cardLikesHandler(card)})
+      } else {
+        api.deleteLikeHendler(CardID)
+        .then(() => {cardLikesHandler(card)})
+      }
     },
-    handleDeleteIconClick: () => {
-
+    handleDeleteIconClick: (cardId, element) => {
+      popupConfirm.open(cardId, element)
     }
   },
-    '.card-template', api.key);
+    '.card-template', api.userId);
   const cardElement = card._generateCard();
   cardList.addItem(cardElement);
 };
 
 const cardList = new Section(cardsRenderer, imageCardContainer);
-serverCardsHendler();
-
-
 
 const formList = Array.from(document.querySelectorAll('.popup__form'));
+formList.splice(-1);
 
 formList.forEach((formElement) => {
     const validationItem = new FormValidator(validationConfig, formElement);
@@ -78,37 +87,28 @@ formList.forEach((formElement) => {
 const profileFormCallback = (inputsValues, popup) => {
   const name = inputsValues.profileNameForm;
   const activity = inputsValues.profileActivityForm;
-  new Promise((resolve, reject) => {
-    api.sendUserInfo(name, activity, resolve);
-  })
+  api.sendUserInfo(name, activity)
   .then(() => serverUserInfoHendler())
-  .then(() => popup.close())
+  .then(() => popup.close('Сохранить'))
 };
 
-const addCardFormCallback = (inputsValues) => {
+const addCardFormCallback = (inputsValues, popup) => {
   const name = inputsValues.cardNameForm;
   const link = inputsValues.cardSrcForm;
-  console.log(name)
-  console.log(link)
-  new Promise((resolve, reject) => {
-    api.sendCard(link, name, resolve)
-  }).then(() => {
-    serverCardsHendler()
-    })
-    /*const data = {name: inputsValues.cardNameForm, link: inputsValues.cardSrcForm};
-  cardsRenderer(data);*/
+  api.sendCard(link, name)
+  .then(() => {
+    console.log(api.newCard)
+    cardList.renderItem(api.newCard)
+    popup.close('Создать')
+  })
 };
 
 const avatarFormCallback = (inputsValues, popup) => {
   const url = inputsValues.avatarSrcForm;
-  new Promise((resolve, reject) => {
-    api.sendUserAvatar(url, resolve)
-  })
+  api.sendUserAvatar(url)
   .then(() => serverUserInfoHendler())
-  .then(() => popup.close())
+  .then(() => popup.close('Сохранить'))
 };
-
-
 
 const popupFormHendler = (selector, buttonElement, callback) => {
   const popup = new PopupWithForm(selector, () => {
@@ -121,8 +121,20 @@ const popupFormHendler = (selector, buttonElement, callback) => {
   });
 };
 
+
+const popupConfirm = new PopupWithConfirm('.popup_type_confirm', () => {
+  api.deleteCard(popupConfirm.id)
+  .then(() => {
+    popupConfirm.close('Да');
+    popupConfirm.element.remove();
+  })
+});
+popupConfirm.setEventListeners();
+
+
 popupFormHendler('.popup_type_profile', buttonProfilePopupOpen, profileFormCallback);
 popupFormHendler('.popup_type_add-card', buttonAddCardPopupOpen, addCardFormCallback);
 popupFormHendler('.popup_type_avatar', profileAvatar, avatarFormCallback)
+
 
 

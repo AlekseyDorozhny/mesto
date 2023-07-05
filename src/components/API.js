@@ -4,34 +4,53 @@ export class Api {
     this.key = key;
   };
 
-  getInitialCards(resolve) {
-    fetch(`https://mesto.nomoreparties.co/v1/${this._cohort}/cards`, {
+  getInitialCards() {
+    return fetch(`https://mesto.nomoreparties.co/v1/${this._cohort}/cards`, {
       headers: {
         authorization: this.key
       }
     })
-    .then(res => res.json())
+    .then(res => {
+      if (res.ok) {
+        return res.json();
+      }
+      return Promise.reject(`Ошибка: ${res.status}`)
+    })
     .then((result) => {
       this.cardData = result;
-    }).then(() => resolve())
+      return Promise.resolve
+    })
+    .catch((err) => {
+      console.log(err)
+    })
   };
 
-  getUserInfo(resolve) {
-    fetch(`https://nomoreparties.co/v1/${this._cohort}/users/me`, {
+  getUserInfo() {
+    return fetch(`https://nomoreparties.co/v1/${this._cohort}/users/me`, {
       headers: {
         authorization: this.key
       }
     })
-    .then(res => res.json())
+    .then(res => {
+      if (res.ok) {
+        return res.json();
+      }
+      return Promise.reject(`Ошибка: ${res.status}`)
+    })
     .then(result => {
       this.name = result.name;
       this.activity = result.about;
       this.avatar = result.avatar;
-    }).then(() => {resolve()})
+      this.userId = result._id;
+      return Promise.resolve
+    })
+    .catch((err) => {
+      console.log(err)
+    })
   }
 
-  sendUserInfo(name, about, resolve) {
-    fetch(`https://mesto.nomoreparties.co/v1/${this._cohort}/users/me`, {
+  sendUserInfo(name, about) {
+    return fetch(`https://mesto.nomoreparties.co/v1/${this._cohort}/users/me`, {
       method: 'PATCH',
       headers: {
         authorization: this.key,
@@ -41,11 +60,14 @@ export class Api {
         name: name,
         about: about
       })
-    }).then(() => {resolve()})
+    }).then(() => Promise.resolve)
+    .catch((err) => {
+      console.log(err)
+    })
   };
 
-  sendUserAvatar(url, resolve) {
-    fetch(`https://mesto.nomoreparties.co/v1/${this._cohort}/users/me/avatar`, {
+  sendUserAvatar(url) {
+    return fetch(`https://mesto.nomoreparties.co/v1/${this._cohort}/users/me/avatar`, {
       method: 'PATCH',
       headers: {
         authorization: this.key,
@@ -54,20 +76,54 @@ export class Api {
       body: JSON.stringify({
         avatar: url
       })
-    }).then(() => resolve())
+    }).then(() => Promise.resolve)
+    .catch((err) => {
+      console.log(err)
+    })
   };
 
-  likeHendler(method) {
-    fetch(`https://mesto.nomoreparties.co/v1/cohortId/cards/cardId/likes `, {
-      method: method,
+  putLikeHendler(ID) {
+    return fetch(`https://mesto.nomoreparties.co/v1/${this._cohort}/cards/${ID}/likes `, {
+      method: 'PUT',
       headers: {
         authorization: this.key
       },
+    }).then(res => {
+      if (res.ok) {
+        return res.json();
+      }
+      return Promise.reject(`Ошибка: ${res.status}`)
+    })
+    .then((data) => {
+      this.resreshedLikeData = data;
+      return Promise.resolve})
+    .catch((err) => {
+      console.log(err)
     })
   }
 
-  sendCard(link, name, resolve) {
-    fetch(`https://mesto.nomoreparties.co/v1/${this._cohort}/cards`, {
+  deleteLikeHendler(ID) {
+    return fetch(`https://mesto.nomoreparties.co/v1/${this._cohort}/cards/${ID}/likes `, {
+      method: 'DELETE',
+      headers: {
+        authorization: this.key
+      },
+    }).then(res => {
+      if (res.ok) {
+        return res.json();
+      }
+      return Promise.reject(`Ошибка: ${res.status}`)
+    })
+    .then((data) => {
+      this.resreshedLikeData = data;
+      return Promise.resolve})
+    .catch((err) => {
+      console.log(err)
+    })
+  }
+
+  sendCard(link, name) {
+    return fetch(`https://mesto.nomoreparties.co/v1/${this._cohort}/cards`, {
       method: 'POST',
       headers: {
         authorization: this.key,
@@ -78,11 +134,32 @@ export class Api {
         name: name
       })
     })
-    .then(res => res.json())
+    .then(res => {
+      if (res.ok) {
+        return res.json();
+      }
+      return Promise.reject(`Ошибка: ${res.status}`)
+    })
     .then((result) => {
-      console.log(result);
-    }).then(() => {resolve()})
+      this.newCard = result;
+      return Promise.resolve
+    }).catch((err) => {
+      console.log(err)
+    })
   }
+
+  deleteCard(cardId) {
+    return fetch(`https://mesto.nomoreparties.co/v1/${this._cohort}/cards/${cardId}`, {
+      method: 'DELETE',
+      headers: {
+        authorization: this.key
+      },
+    }).then(() => Promise.resolve)
+    .catch((err) => {
+      console.log(err)
+    })
+  }
+
 };
 
 

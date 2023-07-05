@@ -5,16 +5,20 @@ export class Section {
   }
 
   addItem(element) {
-    this._container.append(element);
+    this._container.prepend(element);
   };
 
 
   renderItems() {
-    // this._renderer(this._items[0])
-    this._items.forEach((item) => {
+    this._items.slice().reverse().forEach((item) => {
       this._renderer(item)
     })
   };
+
+  renderItem(item) {
+    console.log(item)
+    this._renderer(item)
+  }
 }
 
 
