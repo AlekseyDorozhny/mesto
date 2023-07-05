@@ -15,13 +15,12 @@
   border-radius: 60px;
   display: block;
   overflow: hidden;
-  transition: background-color .5s;
+  transition: background-color .5s, opacity .5s;
   background-image: url(../../../Images/editPen.svg);
   background-repeat: no-repeat;
   background-position: center;
   background-size: 26px 26px;
   opacity: 0;
-  transition: opacity .5s;
 }
 
 .profile__avatar:hover::after {
