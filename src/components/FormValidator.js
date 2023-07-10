@@ -70,7 +70,6 @@ export class FormValidator {
     const activeValidator = this;
     this._formElement.addEventListener('submit', function (evt) {
       evt.preventDefault();
-      activeValidator._toggleButtonState();
     });
     this._formElement.addEventListener('reset', () => {
       activeValidator.disableSubmitButton();

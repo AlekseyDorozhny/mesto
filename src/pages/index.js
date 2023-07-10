@@ -1,5 +1,5 @@
 import '../pages/index.css';
-import {initialCards, validationConfig, buttonProfilePopupOpen, buttonAddCardPopupOpen, imageCardContainer, profileName,profileActivity, profileAvatar} from '../utils/constants';
+import {validationConfig, buttonProfilePopupOpen, buttonAddCardPopupOpen, imageCardContainer, profileName,profileActivity, profileAvatar} from '../utils/constants';
 import {Card} from '../components/Card';
 import {FormValidator} from '../components/FormValidator.js'
 import {Section} from '../components/Section.js';
@@ -12,38 +12,52 @@ import {PopupWithConfirm} from '../components/PopupWithConfirm.js';
 const imagePopup = new PopupWithImage('.popup_type_image');
 imagePopup.setEventListeners();
 
-const cohort = 'cohort-70';
-const key = 'a400d028-60ca-4464-923c-d42d02840b32';
-const api = new Api(cohort, key)
+const api = new Api({
+  baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-70',
+  headers: {
+    authorization: 'a400d028-60ca-4464-923c-d42d02840b32',
+    'Content-Type': 'application/json'
+  }
+});
 
  /*Пользователь*/
 const userInfo = new UserInfo(profileName, profileActivity, profileAvatar);
 
-const serverCardsHendler = () => {
-  api.getInitialCards()
-  .then(() => cardList._items = api.cardData)
-  .then(() => cardList.renderItems())
-};
-
 const serverUserInfoHendler = () => {
   api.getUserInfo()
-  .then(() => {
-    const name = api.name;
-    const activity = api.activity;
-    const avatar = api.avatar;
-    userInfo.setUserInfo({name, activity, avatar})
+  .then((res) => {
+    userInfo.setUserInfo({name: res.name, activity: res.about, avatar: res.avatar, _id: res._id})
   })
+  .catch((err) => {console.log(err)})
 }
 
-serverUserInfoHendler();
-serverCardsHendler();
+const serverCardsHendler = () => {
+  api.getInitialCards()
+  .then((res) => cardList.items = res)
+  .then(() => cardList.renderItems())
+  .catch((err) => {console.log(err)})
+};
+
+const serverCardandUserInfoHendler = () => {
+  Promise.all([api.getInitialCards(), api.getUserInfo()])
+  .then((res)=> {
+    const userInfoData = res[1];
+    const cardsData = res[0];
+    userInfo.setUserInfo({name: userInfoData.name, activity: userInfoData.about, avatar: userInfoData.avatar, _id: userInfoData._id});
+    cardList.userId = userInfoData._id;
+    cardList.items = cardsData;
+    cardList.renderItems();
+    })
+}
+
+serverCardandUserInfoHendler()
 
 /*Работа с карточками*/
 
-const cardLikesHandler = (card) => {
-  card.refreshLikeData(api.resreshedLikeData)
-  card.likeCounterHendler()
-  card.likeToggler()
+const cardLikesHandler = (card, res) => {
+  console.log(res)
+  card.likes = res.likes;
+  card.likeCounterHendler();
 }
 
 const cardsRenderer = (item) => {
@@ -57,18 +71,18 @@ const cardsRenderer = (item) => {
       card.likeChecker();
       if (!card.liked) {
         api.putLikeHendler(CardID)
-        .then(() => {cardLikesHandler(card)})
+        .then((res) => {cardLikesHandler(card, res)})
       } else {
         api.deleteLikeHendler(CardID)
-        .then(() => {cardLikesHandler(card)})
+        .then((res) => {cardLikesHandler(card, res)})
       }
     },
     handleDeleteIconClick: (cardId, element) => {
       popupConfirm.open(cardId, element)
     }
   },
-    '.card-template', api.userId);
-  const cardElement = card._generateCard();
+    '.card-template', cardList.userId);
+  const cardElement = card.generateCard();
   cardList.addItem(cardElement);
 };
 
@@ -88,26 +102,28 @@ const profileFormCallback = (inputsValues, popup) => {
   const name = inputsValues.profileNameForm;
   const activity = inputsValues.profileActivityForm;
   api.sendUserInfo(name, activity)
-  .then(() => serverUserInfoHendler())
-  .then(() => popup.close('Сохранить'))
+  .then((res) => userInfo.setUserInfo({name: res.name, activity: res.about, avatar: res.avatar, _id: res._id}))
+  .then(() => popup.close())
+  .finally(() => popup.renderLoading(false))
 };
 
 const addCardFormCallback = (inputsValues, popup) => {
   const name = inputsValues.cardNameForm;
   const link = inputsValues.cardSrcForm;
   api.sendCard(link, name)
-  .then(() => {
-    console.log(api.newCard)
-    cardList.renderItem(api.newCard)
-    popup.close('Создать')
+  .then((res) => {
+    cardList.renderItem(res)
+    popup.close()
   })
+  .finally(() => popup.renderLoading(false))
 };
 
 const avatarFormCallback = (inputsValues, popup) => {
   const url = inputsValues.avatarSrcForm;
   api.sendUserAvatar(url)
-  .then(() => serverUserInfoHendler())
-  .then(() => popup.close('Сохранить'))
+  .then((res) => userInfo.setUserInfo({name: res.name, activity: res.about, avatar: res.avatar, _id: res._id}))
+  .then(() => popup.close())
+  .finally(() => popup.renderLoading(false))
 };
 
 const popupFormHendler = (selector, buttonElement, callback) => {
@@ -121,16 +137,17 @@ const popupFormHendler = (selector, buttonElement, callback) => {
   });
 };
 
-
 const popupConfirm = new PopupWithConfirm('.popup_type_confirm', () => {
   api.deleteCard(popupConfirm.id)
   .then(() => {
-    popupConfirm.close('Да');
+    popupConfirm.close();
     popupConfirm.element.remove();
+  })
+  .finally(() => {
+    popupConfirm.renderLoading(false);
   })
 });
 popupConfirm.setEventListeners();
-
 
 popupFormHendler('.popup_type_profile', buttonProfilePopupOpen, profileFormCallback);
 popupFormHendler('.popup_type_add-card', buttonAddCardPopupOpen, addCardFormCallback);

@@ -5,8 +5,8 @@ export class PopupWithImage extends Popup {
     super(selector);
     this._name = 'Упс, что-то пошло не так';
     this._link = 'https://otvet.imgsmail.ru/download/11e473d8bd6575cae570552bf4817cc8_i-4872.jpg';
-    this._imageElement = document.querySelector('.image-popup__image');
-    this._nameElement = document.querySelector('.image-popup__name');
+    this._imageElement = this._element.querySelector('.image-popup__image');
+    this._nameElement = this._element.querySelector('.image-popup__name');
   }
 
   open(name, link) {

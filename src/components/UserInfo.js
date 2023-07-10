@@ -12,10 +12,11 @@ export class UserInfo {
     return userInfo
   };
 
-  setUserInfo({name, activity, avatar}) {
+  setUserInfo({name, activity, avatar, _id}) {
     this.userName.textContent = name;
     this.userActivity.textContent = activity;
     this.avatar.style = `background-image: url(${avatar})`
+    this._id = _id;
   };
 }
 

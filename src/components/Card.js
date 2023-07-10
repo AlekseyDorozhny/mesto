@@ -11,7 +11,7 @@ export class Card {
       this.handleDeleteIconClick = handleDeleteIconClick;
       this._elementImage = 'Присваивается ниже';
       this._id = data._id;
-      this._userId = 'f8f8cec4575e76a3614dd984';
+      this._userId = userId;
   };
 
   _getTemplate() {
@@ -43,13 +43,15 @@ export class Card {
     });
   };
 
-  likeChecker () {
+  likeChecker() {
     this.liked = this.likes.some(e => e._id === this._userId)
   };
 
   likeCounterHendler() {
+    this.likeChecker(this._userId);
     const likeCounter = this.element.querySelector('.element__like-counter');
     likeCounter.textContent = this.likes.length;
+    this.likeToggler()
   }
 
   likeToggler() {
@@ -60,12 +62,8 @@ export class Card {
     }
   }
 
-  refreshLikeData(data) {
-    this.likes = data.likes;
-  }
 
-  _generateCard() {
-    this.likeChecker(this._userId);
+  generateCard() {
     const element = this._getTemplate();
     this.element = element
     const name = element.querySelector('.element__name');
@@ -74,7 +72,7 @@ export class Card {
     this.likeToggler();
     element.querySelector('.element__image').src = this.link;
     name.textContent = this.name;
-    name.alt = `Изображение добавленное пользователем, название ${this.name}`;
+    this._elementImage.alt = `Изображение добавленное пользователем, название ${this.name}`;
     if (this.owner._id === this._userId) {
       this.trashElement.style = `display: block`
     }
