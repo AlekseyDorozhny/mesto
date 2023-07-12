@@ -24,13 +24,11 @@ export class Card {
   };
 
   _setEventListener(element) {
-    const trashElement = element.querySelector('.element__trash');
-    this.trashElement = trashElement;
+    this.trashElement = element.querySelector('.element__trash');
     this.likeElement = element.querySelector('.element__like');
-    const elementImage = element.querySelector('.element__image');
-    this._elementImage = elementImage;
+    this._elementImage = element.querySelector('.element__image');
 
-    trashElement.addEventListener('click', () => {
+    this.trashElement.addEventListener('click', () => {
       this.handleDeleteIconClick(this._id, element);
     });
 
@@ -49,8 +47,7 @@ export class Card {
 
   likeCounterHendler() {
     this.likeChecker(this._userId);
-    const likeCounter = this.element.querySelector('.element__like-counter');
-    likeCounter.textContent = this.likes.length;
+    this.likeCounter.textContent = this.likes.length;
     this.likeToggler()
   }
 
@@ -62,20 +59,19 @@ export class Card {
     }
   }
 
-
   generateCard() {
-    const element = this._getTemplate();
-    this.element = element
-    const name = element.querySelector('.element__name');
-    this._setEventListener(element);
+    this.element = this._getTemplate();
+    this.likeCounter = this.element.querySelector('.element__like-counter');
+    const name = this.element.querySelector('.element__name');
+    this._setEventListener(this.element);
     this.likeCounterHendler()
     this.likeToggler();
-    element.querySelector('.element__image').src = this.link;
+    this._elementImage.src = this.link;
     name.textContent = this.name;
     this._elementImage.alt = `Изображение добавленное пользователем, название ${this.name}`;
     if (this.owner._id === this._userId) {
       this.trashElement.style = `display: block`
     }
-    return element;
+    return this.element;
   };
 };

@@ -67,12 +67,11 @@ export class FormValidator {
   };
 
   enableValidation() {
-    const activeValidator = this;
-    this._formElement.addEventListener('submit', function (evt) {
+    this._formElement.addEventListener('submit', (evt) => {
       evt.preventDefault();
     });
     this._formElement.addEventListener('reset', () => {
-      activeValidator.disableSubmitButton();
+      this.disableSubmitButton();
     })
     this._setEventListeners();
   };

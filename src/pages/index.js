@@ -20,25 +20,9 @@ const api = new Api({
   }
 });
 
- /*Пользователь*/
 const userInfo = new UserInfo(profileName, profileActivity, profileAvatar);
 
-const serverUserInfoHendler = () => {
-  api.getUserInfo()
-  .then((res) => {
-    userInfo.setUserInfo({name: res.name, activity: res.about, avatar: res.avatar, _id: res._id})
-  })
-  .catch((err) => {console.log(err)})
-}
-
-const serverCardsHendler = () => {
-  api.getInitialCards()
-  .then((res) => cardList.items = res)
-  .then(() => cardList.renderItems())
-  .catch((err) => {console.log(err)})
-};
-
-const serverCardandUserInfoHendler = () => {
+const getAllInfo = () => {
   Promise.all([api.getInitialCards(), api.getUserInfo()])
   .then((res)=> {
     const userInfoData = res[1];
@@ -48,14 +32,12 @@ const serverCardandUserInfoHendler = () => {
     cardList.items = cardsData;
     cardList.renderItems();
     })
+    .catch((err) => {console.log(err)})
 }
 
-serverCardandUserInfoHendler()
-
-/*Работа с карточками*/
+getAllInfo()
 
 const cardLikesHandler = (card, res) => {
-  console.log(res)
   card.likes = res.likes;
   card.likeCounterHendler();
 }
@@ -72,9 +54,11 @@ const cardsRenderer = (item) => {
       if (!card.liked) {
         api.putLikeHendler(CardID)
         .then((res) => {cardLikesHandler(card, res)})
+        .catch((err) => {console.log(err)})
       } else {
         api.deleteLikeHendler(CardID)
         .then((res) => {cardLikesHandler(card, res)})
+        .catch((err) => {console.log(err)})
       }
     },
     handleDeleteIconClick: (cardId, element) => {
@@ -104,8 +88,14 @@ const profileFormCallback = (inputsValues, popup) => {
   api.sendUserInfo(name, activity)
   .then((res) => userInfo.setUserInfo({name: res.name, activity: res.about, avatar: res.avatar, _id: res._id}))
   .then(() => popup.close())
+  .catch((err) => {console.log(err)})
   .finally(() => popup.renderLoading(false))
 };
+
+const profileOpenHendler = (popup) => {
+  popup.inputList[0].value = userInfo.userName.textContent
+  popup.inputList[1].value = userInfo.userActivity.textContent
+}
 
 const addCardFormCallback = (inputsValues, popup) => {
   const name = inputsValues.cardNameForm;
@@ -115,6 +105,7 @@ const addCardFormCallback = (inputsValues, popup) => {
     cardList.renderItem(res)
     popup.close()
   })
+  .catch((err) => {console.log(err)})
   .finally(() => popup.renderLoading(false))
 };
 
@@ -123,14 +114,15 @@ const avatarFormCallback = (inputsValues, popup) => {
   api.sendUserAvatar(url)
   .then((res) => userInfo.setUserInfo({name: res.name, activity: res.about, avatar: res.avatar, _id: res._id}))
   .then(() => popup.close())
+  .catch((err) => {console.log(err)})
   .finally(() => popup.renderLoading(false))
 };
 
-const popupFormHendler = (selector, buttonElement, callback) => {
+const popupFormHendler = (selector, buttonElement, callback, openHendler= ()=>{}) => {
   const popup = new PopupWithForm(selector, () => {
     const inputsValues = popup.inputsValues
-    callback(inputsValues, popup);
-  });
+    callback(inputsValues, popup)
+  }, () => {openHendler(popup)});
   popup.setEventListeners();
   buttonElement.addEventListener('click', () => {
     popup.open();
@@ -143,13 +135,14 @@ const popupConfirm = new PopupWithConfirm('.popup_type_confirm', () => {
     popupConfirm.close();
     popupConfirm.element.remove();
   })
+  .catch((err) => {console.log(err)})
   .finally(() => {
     popupConfirm.renderLoading(false);
   })
 });
 popupConfirm.setEventListeners();
 
-popupFormHendler('.popup_type_profile', buttonProfilePopupOpen, profileFormCallback);
+popupFormHendler('.popup_type_profile', buttonProfilePopupOpen, profileFormCallback, profileOpenHendler);
 popupFormHendler('.popup_type_add-card', buttonAddCardPopupOpen, addCardFormCallback);
 popupFormHendler('.popup_type_avatar', profileAvatar, avatarFormCallback)
 
